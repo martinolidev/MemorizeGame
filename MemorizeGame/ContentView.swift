@@ -9,40 +9,30 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        CardView()
+        HStack {
+            CardView(isFaceUp: true)
+            CardView()
+        }.padding()
     }
 }
 
 
 struct CardView: View {
+    
+    var isFaceUp: Bool = false
+    
     var body: some View {
-        HStack {
-            RoundedRectangle(cornerRadius: 25)
-                .strokeBorder(Color.indigo,lineWidth: 4)
-                .overlay(
-                Text("🤓")
-                    .font(.largeTitle)
-                )
-            RoundedRectangle(cornerRadius: 25)
-                .strokeBorder(Color.indigo,lineWidth: 4)
-                .overlay(
-                Text("🤓")
-                    .font(.largeTitle)
-                )
-            RoundedRectangle(cornerRadius: 25)
-                .strokeBorder(Color.indigo,lineWidth: 4)
-                .overlay(
-                Text("🤓")
-                    .font(.largeTitle)
-                )
-            RoundedRectangle(cornerRadius: 25)
-                .strokeBorder(Color.indigo,lineWidth: 4)
-                .overlay(
-                Text("🤓")
-                    .font(.largeTitle)
-                )
-        }
-        .padding()
+            if isFaceUp {
+                RoundedRectangle(cornerRadius: 25)
+                    .strokeBorder(Color.indigo,lineWidth: 4)
+                    .overlay(
+                    Text("🤓")
+                        .font(.largeTitle)
+                    )
+            } else {
+                RoundedRectangle(cornerRadius: 25)
+                    .foregroundColor(.indigo)
+            }
     }
 }
 
