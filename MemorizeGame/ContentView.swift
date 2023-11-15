@@ -15,7 +15,10 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            cards
+            ScrollView {
+             cards
+            }
+            Spacer()
             cardCountAdjusters
         }.padding()
         
@@ -30,33 +33,30 @@ struct ContentView: View {
     }
     
     var cards: some View {
-        HStack {
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: 120))]) {
             ForEach(0..<cardCount, id: \.self) { index in
                 CardView(content: emojis[index])
+                    .aspectRatio(2/3, contentMode: .fit)
             }
         }
+    }
+    
+    func cardCountAdjuster(by offset: Int, symbol: String) -> some View {
+        Button {
+            cardCount += offset
+        } label: {
+            Image(systemName: symbol)
+                .font(.largeTitle)
+        }
+        .disabled(cardCount + offset < 1 || cardCount + offset > emojis.count - 1)
     }
     
     var cardAdder: some View {
-        Button {
-            if cardCount < emojis.count {
-                cardCount += 1
-            }
-        } label: {
-            Image(systemName: "person.crop.rectangle.badge.plus")
-                .font(.largeTitle)
-        }
+        cardCountAdjuster(by: 1, symbol: "rectangle.stack.badge.plus.fill")
     }
-    
+
     var cardRemover: some View {
-        Button {
-            if cardCount > 1 {
-                cardCount -= 1
-            }
-        } label: {
-            Image(systemName: "rectangle.stack.badge.minus.fill")
-                .font(.largeTitle)
-        }
+        cardCountAdjuster(by: -1, symbol: "rectangle.stack.badge.minus.fill")
     }
 }
 
@@ -74,13 +74,12 @@ struct CardView: View {
             //Use let if is a constant
             let card: RoundedRectangle = RoundedRectangle(cornerRadius: 25)
 
-                if isFaceUp {
+                Group {
                     card.fill(.white)
                     card.stroke(Color.indigo,lineWidth: 4)
                     Text(content).font(.largeTitle)
-                } else {
-                    card.fill(.indigo)
-                }
+                }.opacity(isFaceUp ? 1 : 0)
+                card.fill(.indigo).opacity(isFaceUp ? 0 : 1)
         }.onTapGesture {
             isFaceUp.toggle()
         }
