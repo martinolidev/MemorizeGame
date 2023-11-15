@@ -31,7 +31,7 @@ struct CardView: View {
                     )
             } else {
                 RoundedRectangle(cornerRadius: 25)
-                    .foregroundColor(.indigo)
+                    .foregroundColor(.mint)
             }
     }
 }
