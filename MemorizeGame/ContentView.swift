@@ -19,6 +19,8 @@ struct ContentView: View {
 
 struct CardView: View {
     
+    //@State creates reactive properties, updating the view when
+    //is changed, that's how we have dynamic SwiftUI
     @State var isFaceUp: Bool = false
     
     var body: some View {
